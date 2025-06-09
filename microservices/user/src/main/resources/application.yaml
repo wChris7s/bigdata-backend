@@ -1,0 +1,19 @@
+server:
+  port: 9090
+
+spring:
+  r2dbc:
+    username: admin
+    password: change_me
+    url: r2dbc:postgresql://localhost:5432/opvreal_db
+
+logging:
+  level:
+    io.r2dbc.postgresql.QUERY: DEBUG
+    io.r2dbc.postgresql.PARAM: DEBUG
+
+springdoc:
+  swagger-ui:
+    path: /api/openapi/ui/swagger-ui.html
+  api-docs:
+    path: /api/openapi/docs/api-docs.yaml

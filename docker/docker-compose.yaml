@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:16.7-alpine3.20
+    restart: always
+    volumes:
+      - ../database/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - opvreal_db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: change_me
+      POSTGRES_DB: opvreal_db
+
+volumes:
+  opvreal_db:
+    name: "opvreal_db"
+    driver: local

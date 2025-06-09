@@ -1,0 +1,20 @@
+plugins {
+    id 'groovy-gradle-plugin'
+}
+
+repositories {
+    gradlePluginPortal()
+}
+
+dependencies {
+    Properties properties = new Properties()
+    FileInputStream fis = new FileInputStream("${rootDir.parentFile}/gradle.properties")
+    properties.load(fis)
+    properties.forEach { key, value ->
+        ext.set(key as String, value)   // ext: extra properties.
+    }
+    fis.close()
+
+    implementation "org.springframework.boot:spring-boot-gradle-plugin:${springVersion}"
+    implementation "com.palantir.gradle.docker:gradle-docker:${palantirVersion}"
+}

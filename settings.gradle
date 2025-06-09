@@ -1,0 +1,4 @@
+rootProject.name = 'opvreal-backend'
+
+include ':microservices'
+include 'microservices:user'
