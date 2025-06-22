@@ -1,0 +1,17 @@
+server:
+  port: 9090
+
+spring:
+  kafka:
+    admin:
+      auto-create: true
+    bootstrap-servers: localhost:9190
+    client-id: ms-event-processer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+application:
+  topic:
+    name: bigdata-event
+  origin: http://localhost:4200

@@ -1,27 +1,27 @@
 plugins {
-    id 'java'
+  id 'java'
 }
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(javaVersion)
-    }
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(javaVersion)
+  }
 }
 
 configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
 }
 
-group = 'com.opvreal.erp'
+group = 'com.bigdata.app'
 version = '1.0.0'
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+  compileOnly "org.projectlombok:lombok:${lombokVersion}"
+  annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }

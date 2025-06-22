@@ -1,4 +1,4 @@
-rootProject.name = 'opvreal-backend'
+rootProject.name = 'bigdata_backend'
 
 include ':microservices'
-include 'microservices:user'
+include ':microservices:event-processer'

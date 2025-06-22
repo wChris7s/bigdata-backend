@@ -3,29 +3,7 @@ subprojects {
     {
       apply {
         plugin "app-base.plugin"
-        plugin "app-spring.plugin"
-        plugin "app-palantir.plugin"
-      }
-
-      // ======================== PALANTIR DOCKER ========================
-      // =========== https://github.com/palantir/gradle-docker ===========
-      docker {
-        name "opvreal/${subproject.name}:${subproject.version}"
-        dockerfile file("src/main/resources/template/Dockerfile")
-        files "build/libs/${subproject.name}-${subproject.version}.jar"
-        buildArgs(['JAR_FILE'  : "${subproject.name}-${subproject.version}.jar"])
-      }
-
-      tasks.register('copyDockerTemplate', Copy) {
-        from "${rootDir}/docker/template/Dockerfile"
-        into subproject.getLayout().getProjectDirectory().dir("src/main/resources/template")
-      }
-
-      docker.dependsOn build
-      // ======================== =============== ========================
-
-      tasks.named('test') {
-        useJUnitPlatform()
+        plugin "app-producer.plugin"
       }
     }
 }

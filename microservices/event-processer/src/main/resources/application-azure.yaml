@@ -1,0 +1,19 @@
+server:
+  port: 9090
+
+spring:
+  kafka:
+    bootstrap-servers: bigdatademo.servicebus.windows.net:9093
+    client-id: ms-event-processer
+    properties:
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="XXXXX";
+      sasl.mechanism: PLAIN
+      security.protocol: SASL_SSL
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+application:
+  topic:
+    name: bigdata-event
+  origin: http://localhost:4200

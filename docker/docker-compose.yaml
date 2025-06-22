@@ -1,18 +1,28 @@
 services:
-  postgres:
-    image: postgres:16.7-alpine3.20
-    restart: always
-    volumes:
-      - ../database/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - opvreal_db:/var/lib/postgresql/data
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka_broker
     ports:
-      - "5432:5432"
+      - "9190:9190"
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: change_me
-      POSTGRES_DB: opvreal_db
+      CLUSTER_ID: qZgSnyiuTqWvqKxaG4ST9g
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://kafka_broker:9092,CONTROLLER://kafka_broker:9093,PLAINTEXT_HOST://0.0.0.0:9190
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka_broker:9092,PLAINTEXT_HOST://localhost:9190
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka_broker:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-volumes:
-  opvreal_db:
-    name: "opvreal_db"
-    driver: local
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka_ui
+    depends_on:
+      - kafka
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: bigdata_cluster
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka_broker:9092
