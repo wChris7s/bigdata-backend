@@ -4,6 +4,24 @@ subprojects {
       apply {
         plugin "app-base.plugin"
         plugin "app-producer.plugin"
+        plugin "app-palantir.plugin"
       }
+
+      // ======================== PALANTIR DOCKER ========================
+      // =========== https://github.com/palantir/gradle-docker ===========
+      docker {
+        name "springbootappbigdata.azurecr.io/springbootappbigdata:latest"
+        dockerfile file("src/main/resources/template/Dockerfile")
+        files "build/libs/${subproject.name}-${subproject.version}.jar"
+        buildArgs(['JAR_FILE': "${subproject.name}-${subproject.version}.jar"])
+      }
+
+      tasks.register('copyDockerTemplate', Copy) {
+        from "${rootDir}/docker/template/Dockerfile"
+        into subproject.getLayout().getProjectDirectory().dir("src/main/resources/template")
+      }
+      // docker.dependsOn build
+      // ======================== =============== ========================
+
     }
 }

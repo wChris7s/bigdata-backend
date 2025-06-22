@@ -5,11 +5,10 @@ import com.bigdata.app.http.mapper.EventMetadataDTOMapper;
 import com.bigdata.app.service.MediaProcesserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -20,6 +19,11 @@ public class MediaProcesserController {
 
   public MediaProcesserController(MediaProcesserService mediaProcesserService) {
     this.mediaProcesserService = mediaProcesserService;
+  }
+
+  @GetMapping()
+  public Mono<ResponseEntity<Mono<Map<String, String>>>> test() {
+    return Mono.just(ResponseEntity.ok(Mono.just(Map.of("message", "I'm alive..."))));
   }
 
   @PostMapping()

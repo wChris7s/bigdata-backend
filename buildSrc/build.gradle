@@ -14,5 +14,7 @@ dependencies {
     ext.set(key as String, value)   // ext: extra properties.
   }
   fis.close()
+
   implementation "org.springframework.boot:spring-boot-gradle-plugin:${springVersion}"
+  implementation "com.palantir.gradle.docker:gradle-docker:${palantirVersion}"
 }
