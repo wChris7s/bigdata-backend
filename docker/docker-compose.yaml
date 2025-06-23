@@ -39,7 +39,7 @@ services:
       - "8081:8081"
     command: standalone-job --job-classname com.opvreal.erp.FlinkKafkaToKafkaJob --jars /opt/flink/usrlib/flink-job-1.0.0.jar
     volumes:
-      - ../microservices/flink-job/build/libs:/opt/flink/usrlib
+      - ./flink:/opt/flink/usrlib
     environment:
       - |
         FLINK_PROPERTIES=
@@ -55,7 +55,7 @@ services:
     command: taskmanager
     scale: 1
     volumes:
-      - ../microservices/flink-job/build/libs:/opt/flink/usrlib
+      - ./flink:/opt/flink/usrlib
     environment:
       - |
         FLINK_PROPERTIES=

@@ -1,4 +1,4 @@
-package com.opvreal.erp;
+package com.bigdata.app;
 
 import lombok.*;
 

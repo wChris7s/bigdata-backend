@@ -1,39 +1,26 @@
 subprojects {
-  Project subproject ->
-    {
-      apply {
-        plugin "app-base.plugin"
-        plugin "app-palantir.plugin"
-      }
-
-      switch (subproject.name) {
-        case "event-processer":
-          apply {
-            plugin "app-producer.plugin"
-          }
-          return;
-        case "flink-job":
-          apply {
-            plugin "app-flink.plugin"
-            plugin "app-shadow.plugin"
-          }
-          return;
-      }
-
-      // ======================== PALANTIR DOCKER ========================
-      // =========== https://github.com/palantir/gradle-docker ===========
-      docker {
-        name "springbootappbigdata.azurecr.io/springbootappbigdata:latest"
-        dockerfile file("src/main/resources/template/Dockerfile")
-        files "build/libs/${subproject.name}-${subproject.version}.jar"
-        buildArgs(['JAR_FILE': "${subproject.name}-${subproject.version}.jar"])
-      }
-
-      tasks.register('copyDockerTemplate', Copy) {
-        from "${rootDir}/docker/template/Dockerfile"
-        into subproject.getLayout().getProjectDirectory().dir("src/main/resources/template")
-      }
-      // docker.dependsOn build
-      // ======================== =============== ========================
+  {
+    apply {
+      plugin "app-palantir.plugin"
     }
+
+    group = 'com.bigdata.app'
+    version = '1.0.0'
+
+    // ======================== PALANTIR DOCKER ========================
+    // =========== https://github.com/palantir/gradle-docker ===========
+    docker {
+      name "springbootappbigdata.azurecr.io/${project.name}:latest"
+      dockerfile file("src/main/resources/template/Dockerfile")
+      files "build/libs/${project.name}-${project.version}.jar"
+      buildArgs(['JAR_FILE': "${project.name}-${project.version}.jar"])
+    }
+
+    tasks.register('copyDockerTemplate', Copy) {
+      from "${rootDir}/docker/template/Dockerfile"
+      into project.getLayout().getProjectDirectory().dir("src/main/resources/template")
+    }
+    // docker.dependsOn build
+    // ======================== =============== ========================
+  }
 }

@@ -1,0 +1,21 @@
+server:
+  port: 80
+spring:
+  kafka:
+    bootstrap-servers: bigdatademo.servicebus.windows.net:9093
+    client-id: ms-event-processer
+    properties:
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://bigdatademo.servicebus.windows.net/;SharedAccessKeyName=SendReceiveOnly;SharedAccessKey=cH9gN10hk7jEoEp7G0PcmpWMDSElblUPt+AEhAYJJIA=";
+      sasl.mechanism: PLAIN
+      security.protocol: SASL_SSL
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: bigdata-likes-group
+      properties:
+        spring.json.value.default.type: com.bigdata.app.domain.model.UserLikesMessage
+
+application:
+  topic:
+    name: bigdata-likes
+  origin: http://localhost:4200

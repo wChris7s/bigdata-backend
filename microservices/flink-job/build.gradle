@@ -1,4 +1,7 @@
 plugins {
+  id "app-base.plugin"
+  id "app-flink.plugin"
+  id "app-shadow.plugin"
 }
 
 shadowJar {
