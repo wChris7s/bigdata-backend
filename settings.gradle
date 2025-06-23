@@ -2,3 +2,4 @@ rootProject.name = 'bigdata_backend'
 
 include ':microservices'
 include ':microservices:event-processer'
+include 'microservices:flink-job'

@@ -17,4 +17,6 @@ dependencies {
 
   implementation "org.springframework.boot:spring-boot-gradle-plugin:${springVersion}"
   implementation "com.palantir.gradle.docker:gradle-docker:${palantirVersion}"
+  implementation "com.palantir.gradle.docker:gradle-docker:${palantirVersion}"
+  implementation "com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:${shadowVersion}"
 }

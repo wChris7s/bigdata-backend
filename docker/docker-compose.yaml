@@ -1,5 +1,7 @@
 services:
   kafka:
+    profiles:
+      - kafka
     image: confluentinc/cp-kafka:latest
     container_name: kafka_broker
     ports:
@@ -17,6 +19,8 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   kafka-ui:
+    profiles:
+      - kafka
     image: provectuslabs/kafka-ui:latest
     container_name: kafka_ui
     depends_on:
@@ -26,3 +30,35 @@ services:
     environment:
       KAFKA_CLUSTERS_0_NAME: bigdata_cluster
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka_broker:9092
+
+  jobmanager:
+    profiles:
+      - flink
+    image: flink:latest
+    ports:
+      - "8081:8081"
+    command: standalone-job --job-classname com.opvreal.erp.FlinkKafkaToKafkaJob --jars /opt/flink/usrlib/flink-job-1.0.0.jar
+    volumes:
+      - ../microservices/flink-job/build/libs:/opt/flink/usrlib
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        parallelism.default: 2        
+
+  taskmanager:
+    profiles:
+      - flink
+    image: flink:latest
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    scale: 1
+    volumes:
+      - ../microservices/flink-job/build/libs:/opt/flink/usrlib
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 2
+        parallelism.default: 2

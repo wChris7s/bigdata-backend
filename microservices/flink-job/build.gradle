@@ -1,0 +1,11 @@
+plugins {
+}
+
+shadowJar {
+  archiveBaseName.set('flink-job')
+  archiveClassifier.set('')
+  archiveVersion.set('1.0.0')
+}
+
+dependencies {
+}

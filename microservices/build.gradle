@@ -3,8 +3,21 @@ subprojects {
     {
       apply {
         plugin "app-base.plugin"
-        plugin "app-producer.plugin"
         plugin "app-palantir.plugin"
+      }
+
+      switch (subproject.name) {
+        case "event-processer":
+          apply {
+            plugin "app-producer.plugin"
+          }
+          return;
+        case "flink-job":
+          apply {
+            plugin "app-flink.plugin"
+            plugin "app-shadow.plugin"
+          }
+          return;
       }
 
       // ======================== PALANTIR DOCKER ========================
@@ -22,6 +35,5 @@ subprojects {
       }
       // docker.dependsOn build
       // ======================== =============== ========================
-
     }
 }
